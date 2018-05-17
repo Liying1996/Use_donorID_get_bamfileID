@@ -52,7 +52,7 @@ def get_bamfile_ID(experiment_ID):
     biosam = soup2.find_all('a',attrs={"href":re.compile(r'^\/biosamples')})
     for i in biosam:
         biosamples.append(i.string)
-    temp = 0    
+    tmp = []
     for num in range(1,len(biosamples)+1):
         bio_num = browser2.find_element_by_xpath('//*[@id="content"]/div/div[2]/div[2]/table/tbody/tr[' + str(num) + ']/td[4]/a')
         bio_num.click()
@@ -62,7 +62,7 @@ def get_bamfile_ID(experiment_ID):
         donor_re = soup3.find_all('a',attrs={"href":re.compile(r'^\/human')})
         for i in donor_re:
             if i.string == 'ENCDO060OTP':
-                tmp = num
+                tmp.append(num)
         browser2.back()
         time.sleep(3)
         
@@ -88,12 +88,13 @@ def get_bamfile_ID(experiment_ID):
     for i in tr:
         if re.search('bam',i) != None:
             if re.search('unfiltered',i) == None:
-                if re.search('<td>'+ str(tmp) + '</td>',i) != None:
-                    new_i = i.split('/')
-                    for j in new_i:
-                        if re.search('^ENCFF\w{6}$',j) != None:
-                            if j not in bam_ids:
-                                bam_ids.append(j)
+                for t in tmp:
+                    if re.search('<td>'+ str(tmp) + '</td>',i) != None:
+                        new_i = i.split('/')
+                        for j in new_i:
+                            if re.search('^ENCFF\w{6}$',j) != None:
+                                if j not in bam_ids:
+                                    bam_ids.append(j)
     return bam_ids
 
 
