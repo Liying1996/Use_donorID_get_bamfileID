@@ -61,7 +61,7 @@ def get_bamfile_ID(experiment_ID):
         soup3 = BeautifulSoup(page3, 'html.parser')
         donor_re = soup3.find_all('a',attrs={"href":re.compile(r'^\/human')})
         for i in donor_re:
-            if i.string == 'ENCDO060OTP':
+            if i.string == donor:
                 tmp.append(num)
         browser2.back()
         time.sleep(3)
