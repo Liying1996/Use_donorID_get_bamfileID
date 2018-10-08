@@ -42,7 +42,7 @@ def get_exp_id(url):
         return info2
 
 
-def get_bamfile_ID(experiment_ID):
+def get_bamfile_ID(experiment_ID, donor_ID):
     browser2 = webdriver.Chrome()
     browser2.get("https://www.encodeproject.org/experiments/" + experiment_ID)
     time.sleep(5)
@@ -61,7 +61,7 @@ def get_bamfile_ID(experiment_ID):
         soup3 = BeautifulSoup(page3, 'html.parser')
         donor_re = soup3.find_all('a',attrs={"href":re.compile(r'^\/human')})
         for i in donor_re:
-            if i.string == donor:
+            if i.string == donor_ID:
                 tmp.append(num)
         browser2.back()
         time.sleep(3)
@@ -103,15 +103,9 @@ def main(donor_ID):
     bam_ids = []
     for ids in experiment_ID:
         try:
-            list_bam = get_bamfile_ID(ids)
+            list_bam = get_bamfile_ID(ids, donor_ID)
         except:
             list_bam = ['']            
         for i in list_bam:
             print(i)
-        
-with open('/Users/liying/Desktop/question.txt') as file:
-    for donor in file:
-        donor = donor.replace('\n','')
-        print(donor)
-        main(donor)
-        print("=====================================================")
+
