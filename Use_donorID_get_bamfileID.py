@@ -88,13 +88,14 @@ def get_bamfile_ID(experiment_ID, donor_ID):
     for i in tr:
         if re.search('bam',i) != None:
             if re.search('unfiltered',i) == None:
-                for t in tmp:
-                    if re.search('<td>'+ str(tmp) + '</td>',i) != None:
-                        new_i = i.split('/')
-                        for j in new_i:
-                            if re.search('^ENCFF\w{6}$',j) != None:
-                                if j not in bam_ids:
-                                    bam_ids.append(j)
+                if re.search('transcriptome', i) == None:
+                    for t in tmp:
+                        if re.search('<td>'+ str(tmp) + '</td>',i) != None:
+                            new_i = i.split('/')
+                            for j in new_i:
+                                if re.search('^ENCFF\w{6}$',j) != None:
+                                    if j not in bam_ids:
+                                        bam_ids.append(j)
     return bam_ids
 
 
