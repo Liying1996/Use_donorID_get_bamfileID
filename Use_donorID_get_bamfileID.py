@@ -3,10 +3,14 @@ import time
 from bs4 import BeautifulSoup
 from selenium import webdriver 
 from selenium.webdriver.support.ui import Select
-
+from selenium.webdriver.chrome.options import Options
 
 def get_exp_id(url):
-    browser = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    browser = webdriver.Chrome(chrome_options=chrome_options)
+    # browser = webdriver.Chrome()
     browser.get(url)
     time.sleep(3)
     try:
@@ -43,7 +47,12 @@ def get_exp_id(url):
 
 
 def get_bamfile_ID(experiment_ID, donor_ID):
-    browser2 = webdriver.Chrome()
+    # browser2 = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    browser2 = webdriver.Chrome(chrome_options=chrome_options)
+    
     browser2.get("https://www.encodeproject.org/experiments/" + experiment_ID)
     time.sleep(5)
     page2 = browser2.page_source
